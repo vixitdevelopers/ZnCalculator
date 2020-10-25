@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Zn Calculator</string>
+    <string name="hintEquation">3x^2=4</string>
 </resources>

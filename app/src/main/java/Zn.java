@@ -84,23 +84,23 @@ public class Zn {
                         return x + "=" + a;
                 }
                 return "No Solution";
-            break;
             case TYPE_ONE_SIDE_NO_VAR:
                 return "" + solveNoEquals(left);
-            break;
             case TYPE_ONE_SIDE_WITH_VAR:
                 return "error 304: can't solve equation";
-                break;
             case TYPE_TWO_SIDE_NO_VAR:
                 return "Equation is "+checkIfEquals(left,right);
-                break;
         }
         return "error 205. can't solve";
     }
 
     private String replace(String equation, int a) {
-        //args e.g:
+        //args
+        // int e.g : 4
+        // equation e.g: "3x^2+8=X+1
+        //returns : "3*4^2+8=4+1
         ArrayList<String>appearancesOfX = getListBySplit(equation);
+        String result ="";
         for (String part : appearancesOfX) {
 
             for (int i = 0; i < part.length() - 1; i++) {
@@ -115,8 +115,9 @@ public class Zn {
                         part = part.replace(x, (char) a);
                 }
             }
-
+            result+=part;
         }
+        return result;
     }
 
     private ArrayList<String> getListBySplit(String equation){
