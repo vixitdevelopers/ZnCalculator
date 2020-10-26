@@ -1,7 +1,11 @@
+package com.dani.zncalculator;
+
+import android.util.Log;
+
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.LineNumberInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Zn {
 
@@ -15,16 +19,19 @@ public class Zn {
     public static final int TYPE_ONE_SIDE_NO_VAR = 1;
     public static final int TYPE_TWO_SIDE_NO_VAR = 2;
     public static final int TYPE_ONE_SIDE_WITH_VAR = 3;
+    public static final String TAG = "Zn class";
 
 
     public Zn(int n, String expression) {
         this.n = n;
-        this.set = new int[n - 1];
+        this.set = new int[n-1];
         for (int i = 0; i < set.length; i++)
             set[i] = i + 1;
         this.x = varFinder(expression);
         splitByEquals(expression); //defines left , right
         defineType();
+        Log.i(TAG,"Consructor\nn="+n+" expression: "+expression+" var: "+x+"\nleft: "+left
+                +" right: "+right+ "type: "+type+ "set: "+ Arrays.toString(set));
     }
 
     private void defineType() {
@@ -43,12 +50,12 @@ public class Zn {
     //check if var is connected , and take care of that.
     //return var
     private char varFinder(String expression) {
-        char alpha = 'a';
+
         for (int i = 0; i < expression.length(); i++) {
-            if (expression.charAt(i) == alpha)
-                return alpha;
-            else
-                alpha++;
+            for(  char alpha = 'a'; alpha<='z';alpha++){
+                if (expression.charAt(i) == alpha)
+                    return alpha;
+            }
         }
         return '?';
     }
@@ -56,8 +63,16 @@ public class Zn {
     //split expression to two by = sign
     private void splitByEquals(String expression) {
         String[] parts = expression.split("=");
-        left = parts[0];
-        right = parts[1];
+        if(parts.length==2) {
+            left = parts[0];
+            right = parts[1];
+        }else if (parts.length==1){
+            left = parts[0];
+            right = "";
+        }else if(parts.length>2){
+            left="";
+            right="";
+        }
     }
 
 
@@ -67,6 +82,9 @@ public class Zn {
         double solutionLeft = Calculater.eval(left);
         int modRight = (int) (solutionRight % n);
         int modLeft = (int) (solutionLeft % n);
+        Log.i(TAG,"\nChecking equality: "+"\nsolution left: "+solutionLeft+ "|mod: "+modLeft+
+
+                "\nsolution right: "+solutionRight+"|mod: "+modRight);
         return (modLeft == modRight);
     }
 
@@ -80,14 +98,20 @@ public class Zn {
 
             case TYPE_REGULAR_EQUATION:
                 for (int a : set) {
+                    Log.i(TAG,"CHECKING "+a+": left ="+replace(left,a)+" right="+replace(right,a));
                     if (checkIfEquals(replace(left, a), replace(right, a)))
                         return x + "=" + a;
                 }
                 return "No Solution";
             case TYPE_ONE_SIDE_NO_VAR:
+                Double solve = solveNoEquals(left);
+                if (solve<0)
+                    solve = solveNoEquals(String.valueOf(solve + (-solve*n)));
+                if (solve%1==0)//.0
+                    return ""+solve.intValue();
                 return "" + solveNoEquals(left);
             case TYPE_ONE_SIDE_WITH_VAR:
-                return "error 304: can't solve equation";
+                return "Can't solve.";
             case TYPE_TWO_SIDE_NO_VAR:
                 return "Equation is "+checkIfEquals(left,right);
         }
@@ -126,8 +150,15 @@ public class Zn {
             if(equation==""||equation==null)
                 return result;
             else{
-                result.add(StringUtils.substringBefore(equation, String.valueOf(x))+x);
-                equation = StringUtils.substringAfter(equation, String.valueOf(x));
+                if(equation.contains(String.valueOf(x))){ //e.g 3x+2
+                    result.add(StringUtils.substringBefore(equation, String.valueOf(x))+x);
+                    equation = StringUtils.substringAfter(equation, String.valueOf(x));
+                }
+                else{ //e.g +2
+                    result.add(equation);
+                    equation ="";
+                }
+
             }
         }
     }

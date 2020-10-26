@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".MainActivity">
 
     <TextView
@@ -15,24 +18,24 @@
         android:text="Zn"
         android:textColor="#0E0E0E"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextNumber"
-        app:layout_constraintEnd_toStartOf="@+id/editTextNumber"
-        app:layout_constraintTop_toTopOf="@+id/editTextNumber" />
+        app:layout_constraintBottom_toBottomOf="@+id/et_zn"
+        app:layout_constraintEnd_toStartOf="@+id/et_zn"
+        app:layout_constraintTop_toTopOf="@+id/et_zn" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/et_zn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="64dp"
         android:ems="4"
-        android:inputType="number"
         android:hint="3"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
+    <EditText
+        android:id="@+id/et_equation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -42,21 +45,33 @@
         android:layout_marginRight="8dp"
         android:hint="@string/hintEquation"
         android:lines="4"
-        android:textSize="24sp"
         android:padding="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintTop_toBottomOf="@+id/et_zn" />
 
     <Button
-        android:id="@+id/button"
+        android:onClick="Solve"
+        android:id="@+id/button_go"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="64dp"
-        android:text="Button"
+        android:layout_marginTop="32dp"
+        android:text="SOLVE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_equation" />
+
+    <TextView
+        android:id="@+id/tv_solution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        tools:text="X=3"
+        android:textColor="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_go"
+        app:layout_constraintVertical_bias="0.26999998" />
 </androidx.constraintlayout.widget.ConstraintLayout>

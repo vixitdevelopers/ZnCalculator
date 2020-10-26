@@ -1,4 +1,4 @@
-package com.example.zncalculator;
+package com.dani.zncalculator;
 
 import android.content.Context;
 

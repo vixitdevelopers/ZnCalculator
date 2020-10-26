@@ -1,3 +1,7 @@
+package com.dani.zncalculator;
+
+import java.util.HashSet;
+
 public class Calculater {
 
     public static double eval(final String str) {
@@ -78,5 +82,22 @@ public class Calculater {
                 return x;
             }
         }.parse();
+    }
+
+    public static boolean isPrime(int n){
+        int square = (int)Math.ceil((Math.sqrt(n)));//find the square root
+        HashSet<Integer> nos = new HashSet<>();
+        for(int i=1;i<=square;i++){
+            if(n%i==0){
+                if(n/i==i){
+                    nos.add(i);
+                }else{
+                    nos.add(i);
+                    int rem = n/i;
+                    nos.add(rem);
+                }
+            }
+        }
+        return nos.size()==2;//if contains 1 and n then prime
     }
 }
